@@ -1,8 +1,6 @@
 package com.nowzyt.planner.trip;
 
-import com.nowzyt.planner.participant.ParticipantCreateResponse;
-import com.nowzyt.planner.participant.ParticipantRequestPayload;
-import com.nowzyt.planner.participant.ParticipantService;
+import com.nowzyt.planner.participant.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +58,6 @@ public class TripController {
         return ResponseEntity.notFound().build();
     }
 
-
     @GetMapping("/{id}/confirm")
     public ResponseEntity<Trip> confirmTrip(@PathVariable UUID id){
         Optional<Trip> trip = this.repository.findById(id);
@@ -95,4 +92,10 @@ public class TripController {
         return ResponseEntity.notFound().build();
     }
 
+    @GetMapping("/{id}/participants")
+    public ResponseEntity<List<ParticipantData>> getAllParticipants(@PathVariable UUID id){
+        List<ParticipantData> participantList = this.participantService.getAllParticipantsFromTrip(id);
+
+        return ResponseEntity.ok(participantList);
+    }
 }
